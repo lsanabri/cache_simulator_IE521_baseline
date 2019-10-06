@@ -65,6 +65,7 @@ TEST(L1cache, hit_miss_srrip){
         cache_line[i].tag = rand()%4096;
       }
     }
+    /* Load operation for i = 0, store for i =1 */
     loadstore = (bool)i;
     status = srrip_replacement_policy(idx, 
                                      tag, 
@@ -118,7 +119,23 @@ TEST(L1cache, hit_miss_lru) {
 }
 
 /*
- * TEST3: Verifies replacement policy promotion and eviction
+ * TEST3: Verifies miss and hit scenarios for nru policy
+ * 1. Choose a random associativity
+ * 2. Fill a cache entry
+ * 3. Force a miss load
+ * 4. Check  miss_hit_status == MISS_LOAD
+ * 5. Force a miss store
+ * 6. Check miss_hit_status == MISS_STORE
+ * 7. Force a hit read
+ * 8. Check miss_hit_status == HIT_READ
+ * 9. Force a hit store
+ * 10. miss_hit_status == HIT_STORE
+ */
+TEST(L1cache, hit_miss_nru) {
+
+}
+/*
+ * TEST4: Verifies replacement policy promotion and eviction
  * 1. Choose a random policy 
  * 2. Choose a random associativity
  * 3. Fill a cache entry
@@ -135,7 +152,7 @@ TEST(L1cache, promotion){
 
 
 /*
- * TEST4: Verifies evicted lines have the dirty bit set accordantly to the operations
+ * TEST5: Verifies evicted lines have the dirty bit set accordantly to the operations
  * performed.
  * 1. Choose a random policy
  * 2. Choose a random associativity
@@ -153,7 +170,7 @@ TEST(L1cache, writeback){
 }
 
 /*
- * TEST5: Verifies an error is return when invalid parameters are pass
+ * TEST6: Verifies an error is return when invalid parameters are pass
  * performed.
  * 1. Choose a random policy 
  * 2. Choose invalid parameters for idx, tag and asociativy

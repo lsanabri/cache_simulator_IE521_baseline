@@ -21,8 +21,8 @@ enum returns_types {
 
 /* Represent the cache replacement policy */
 enum replacement_policy{
-  LRU,
-NRU,
+ LRU,
+ NRU,
  RRIP,
  RANDOM 
 };
@@ -101,7 +101,7 @@ void address_tag_idx_get(long address,
  * [in] idx: index field of the block
  * [in] tag: tag field of the block
  * [in] associativity: number of ways of the entry
- * [in] loadstore: type of operation true if load false if store
+ * [in] loadstore: type of operation false if load true if store
  * [in] debug: if set to one debug information is printed
  *
  * [in/out] cache_block: return the cache operation return (miss_hit_status)
@@ -122,7 +122,7 @@ int srrip_replacement_policy (int idx,
  * [in] idx: index field of the block
  * [in] tag: tag field of the block
  * [in] associativity: number of ways of the entry
- * [in] loadstore: type of operation true if load false if store
+ * [in] loadstore: type of operation false if true if store
  * [in] debug: if set to one debug information is printed
  *
  * [in/out] cache_block: return the cache operation return (miss_hit_status)
