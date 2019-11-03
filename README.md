@@ -24,8 +24,10 @@ Go to build and make cachetest. There are several options to run the tests.
   Ex: ./test/cachetest  --gtest_filter=L1cache.hit_miss_srrip
 ```
 3. Run a set of test using regular expressions
+```
+./test/cachetest  --gtest_filter=<regexp>
 ./test/cachetest  --gtest_filter=VC*
-
+```
 4. Run a test n times:
 ```
 ./test/cachetest  --gtest_filter=<test_name> --gtest_repeat=<n>
