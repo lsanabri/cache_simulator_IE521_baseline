@@ -1,6 +1,6 @@
-# Cache simulator IE521 project baseline
+# Advance cache simulator project baseline
 
-Code base line for IE0521 cache simulation project
+Code baseline for IE0521 advance cache simulation project
 
 
 ## How to build the project
@@ -9,7 +9,7 @@ Create a build directory and run all targets there
 >> mkdir build
 >> cd build
 >> cmake ..
->> make <target> (l1cache or cachetest)
+>> make <target> (adv_cache or cachetest)
 ```
 ## How to run the tests
 Go to build and make cachetest. There are several options to run the tests.
@@ -23,12 +23,15 @@ Go to build and make cachetest. There are several options to run the tests.
   ./test/cachetest  --gtest_filter=<test_name>
   Ex: ./test/cachetest  --gtest_filter=L1cache.hit_miss_srrip
 ```
-3. Run a test n times:
+3. Run a set of test using regular expressions
+./test/cachetest  --gtest_filter=VC*
+
+4. Run a test n times:
 ```
 ./test/cachetest  --gtest_filter=<test_name> --gtest_repeat=<n>
 Ex: ./test/cachetest  --gtest_filter=L1cache.hit_miss_srrip --gtest_repeat=2
 ```
-4. Replicate test results:
+5. Replicate test results:
 ```
   Each test is run with base seed, to replicate the result the same seed must be used
   ./test/cachetest  --gtest_filter=<test_name> --gtest_random_seed=<test_seed>
@@ -42,9 +45,9 @@ export TEST_DEBUG=1
 To disable the extra logging, set the  environment variable to zero.
 
 ## How to run the simulation
-The simulation executable is located inside the build directory (src/l1cache)
+The simulation executable is located inside the build directory (src/adv_cache)
 ```
-gunzip -c <trace> | <l1cache executable>  -a <associativity> -mp -s <cache size KB> -l <block size in bytes> -rp <replacement policy>
+gunzip -c <trace> | <cache executable>  -a <associativity> -s <cache size KB> -l <block size in bytes> -rp <replacement policy> -opt<vc|l2>
 ```
 
 ### Dependencies
