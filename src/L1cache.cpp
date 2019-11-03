@@ -1,8 +1,8 @@
 /*
  *  Cache simulation project
  *  Class UCR IE-521
- *  Semester: I-2019
-*/
+ *  Semester: II-2019
+ */
 
 #include <iostream>
 #include <stdio.h>

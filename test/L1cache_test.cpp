@@ -1,21 +1,26 @@
 /*
  *  Cache simulation project
  *  Class UCR IE-521
- *  Semester: I-2019
-*/
+ *  Semester: II-2019
+ */
 
 #include <gtest/gtest.h>
 #include <time.h>
 #include <stdlib.h>
 #include <debug_utilities.h>
 #include <L1cache.h>
-#define YEL   "\x1B[33m"
 
-/* Globals */
-int debug_on = 0;
+using namespace std;
 
-/* Test Helpers */
-#define DEBUG(x) if (debug_on) printf("%s\n",#x)
+class L1cache : public ::testing::Test{
+	protected:
+		int debug_on;
+		virtual void SetUp()
+		{
+  		/* Parse for debug env variable */
+  		get_env_var("TEST_DEBUG", &debug_on);
+		};
+};
 /*
  * TEST1: Verifies miss and hit scenarios for srrip policy
  * 1. Choose a random associativity
@@ -29,7 +34,7 @@ int debug_on = 0;
  * 9. Force a hit store
  * 10. miss_hit_status == HIT_STORE
  */
-TEST(L1cache, hit_miss_srrip){
+TEST_F(L1cache, hit_miss_srrip){
   int status;
   int i;
   int idx;
@@ -50,10 +55,10 @@ TEST(L1cache, hit_miss_srrip){
           tag,
           associativity);
   }
- 
+  
   struct entry cache_line[associativity];
   /* Check for a miss */
-  DEBUG(Checking miss operation);
+  DEBUG(debug_on,Checking miss operation);
   for (i = 0 ; i < 2; i++){
     /* Fill cache line */
     for ( i =  0; i < associativity; i++) {
@@ -73,7 +78,7 @@ TEST(L1cache, hit_miss_srrip){
                                      loadstore,
                                      cache_line,
                                      &result,
-                                     bool(debug_on));
+                                     bool(true));
     EXPECT_EQ(status, 0);
     EXPECT_EQ(result.dirty_eviction, 0);
     expected_miss_hit = loadstore ? MISS_STORE: MISS_LOAD;
@@ -83,7 +88,7 @@ TEST(L1cache, hit_miss_srrip){
    * Check for hit: block was replaced in last iteration, if we used the same 
    * tag now we will get a hit
    */
-  DEBUG(Checking hit operation);
+  DEBUG(debug_on,Checking hit operation);
   for (i = 0 ; i < 2; i++){
     loadstore = (bool)i;
     status = srrip_replacement_policy(idx, 
@@ -92,7 +97,7 @@ TEST(L1cache, hit_miss_srrip){
                                      loadstore,
                                      cache_line,
                                      &result,
-                                     (bool)debug_on);
+                                     (bool)true);
     EXPECT_EQ(status, 0);
     EXPECT_EQ(result.dirty_eviction, 0);
     expected_miss_hit = loadstore ? HIT_STORE: HIT_LOAD;
@@ -114,7 +119,7 @@ TEST(L1cache, hit_miss_srrip){
  * 9. Force a hit store
  * 10. miss_hit_status == HIT_STORE
  */
-TEST(L1cache, hit_miss_lru) {
+TEST_F(L1cache, hit_miss_lru) {
 
 }
 
@@ -131,7 +136,7 @@ TEST(L1cache, hit_miss_lru) {
  * 9. Force a hit store
  * 10. miss_hit_status == HIT_STORE
  */
-TEST(L1cache, hit_miss_nru) {
+TEST_F(L1cache, hit_miss_nru) {
 
 }
 /*
@@ -146,7 +151,7 @@ TEST(L1cache, hit_miss_nru) {
  * 8. Check eviction of block A happen after N new blocks were inserted
  * (where N depends of the number of ways)
  */
-TEST(L1cache, promotion){
+TEST_F(L1cache, promotion){
 
 }
 
@@ -165,7 +170,7 @@ TEST(L1cache, promotion){
  * 9. Insert lines until A is evicted
  * 10. Check dirty bit for block A is true
  */
-TEST(L1cache, writeback){
+TEST_F(L1cache, writeback){
 
 }
 
@@ -176,52 +181,6 @@ TEST(L1cache, writeback){
  * 2. Choose invalid parameters for idx, tag and asociativy
  * 3. Check function returns a PARAM error condition
  */
-TEST(L1cache, boundaries){
+TEST_F(L1cache, boundaries){
 
-}
-
-/* 
- * Gtest main function: Generates random seed, if not provided,
- * parses DEBUG flag, and execute the test suite
- */
-int main(int argc, char **argv) {
-  int argc_to_pass = 0;
-  char **argv_to_pass = NULL; 
-  int seed = 0;
-
-  /* Generate seed */
-  seed = time(NULL) & 0xffff;
-
-  /* Parse arguments looking if random seed was provided */
-  argv_to_pass = (char **)calloc(argc + 1, sizeof(char *));
-  
-  for (int i = 0; i < argc; i++){
-    std::string arg = std::string(argv[i]);
-
-    if (!arg.compare(0, 20, "--gtest_random_seed=")){
-      seed = atoi(arg.substr(20).c_str());
-      continue;
-    }
-    argv_to_pass[argc_to_pass] = strdup(arg.c_str());
-    argc_to_pass++;
-  }
-
-  /* Init Gtest */
-  ::testing::GTEST_FLAG(random_seed) = seed;
-  testing::InitGoogleTest(&argc, argv_to_pass);
-
-  /* Print seed for debug */
-  printf(YEL "Random seed %d \n",seed);
-  srand(seed);
-
-  /* Parse for debug env variable */
-  get_env_var("TEST_DEBUG", &debug_on);
-
-  /* Execute test */
-  return RUN_ALL_TESTS();
-  
-  /* Free memory */
-  free(argv_to_pass);
-
-  return 0;
 }

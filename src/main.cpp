@@ -5,6 +5,8 @@
 #include <netinet/in.h>
 #include <math.h>
 #include <L1cache.h>
+#include <L2cache.h>
+#include <Victimcache.h>
 #include <debug_utilities.h>
 
 
@@ -16,7 +18,7 @@ void print_usage ()
 }
 
 int main(int argc, char * argv []) {
-  printf("Do something :), don't forget to keep track of execution time");
+  printf("Do something :), don't forget to keep track of execution time\n");
   /* Parse argruments */
 
   /* Get trace's lines and start your simulation */

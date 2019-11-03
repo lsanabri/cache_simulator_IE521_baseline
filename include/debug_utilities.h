@@ -6,6 +6,14 @@
 #ifndef DEBUG_UTILITIES
 #define DEBUG_UTILITIES
 #include "../include/L1cache.h"
+
+#define CYN "\x1B[36m"
+#define RESET "\x1B[0m"
+#define YEL   "\x1B[33m"
+
+/* MACROS */
+#define DEBUG(y,x) if (y) printf(CYN "[INFO]:" RESET " %s\n",#x) 
+
 /* FUNCTIONS */
 
 /* Get enviroment var */

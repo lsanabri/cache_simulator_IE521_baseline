@@ -135,4 +135,19 @@ int lru_replacement_policy (int idx,
                            entry* cache_blocks,
                            operation_result* operation_result,
                            bool debug=false);
+/* 
+ * Invalidates a line in the cache 
+ * 
+ * [in] tag: tag field of the block
+ * [in] associativity: number of ways of the entry
+ * [in] debug: if set to one debug information is printed
+ *
+ * [in/out] cache_block: cache entry to edit
+ *
+ * return error if tag is not found in cache blocks
+ */
+int l1_line_invalid_set(int tag,
+                        int associativity,
+                        entry* cache_blocks,
+                        bool debug=false);
 #endif

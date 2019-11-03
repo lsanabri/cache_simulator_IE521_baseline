@@ -12,9 +12,6 @@
 #include <math.h>
 #include <debug_utilities.h>
 
-#define CYN "\x1B[36m"
-#define RESET "\x1B[0m"
-
 /* Get enviroment var */
 void get_env_var( const char* var_name,
                  int *var_value ) 
